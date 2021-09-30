@@ -1,1 +1,0 @@
-{"_name":"andriy","_gender":"male","_age":20}

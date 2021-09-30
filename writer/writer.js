@@ -1,11 +1,7 @@
-const fs = require('fs');
+const fsPr = require('fs/promises');
 
+const write = async (fileDirection, data) => {
+    await fsPr.writeFile(fileDirection, JSON.stringify(data));
+};
 
-
-let write=(fileDirection , data)=>{
-    fs.writeFile(fileDirection, JSON.stringify(data), (err) => {
-        console.log(err);
-    })
-}
-
-module.exports = {write}
+module.exports = { write };

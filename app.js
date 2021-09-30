@@ -1,25 +1,28 @@
-let User = require('./user/User');
-let writer = require('./writer/writer')
-let sort = require('./reader/reader')
+const writer = require('./writer/writer')
+const sort = require('./reader/reader')
 
 const path = require("path");
 
 const boys = path.join(__dirname, 'files', 'boys');
 const girls = path.join(__dirname, 'files', 'girls');
 
-const user1 = new User("taras", 'male', 20);
-const user2 = new User("andriy", 'male', 20);
-const user3 = new User("ira", 'female', 20);
-const user5 = new User("olena", 'female', 20);
-const user6 = new User("svitlana", 'female', 20);
-const user7 = new User("oksana", 'female', 20);
-const user8 = new User("diana", 'female', 20);
+const user1 = {name: 'taras', gender: 'male', age: 20};
+const user2 = {name: 'andriy', gender: 'male', age: 20};
+const user3 = {name: 'ira', gender: 'female', age: 20};
+const user4 = {name: 'olena', gender: 'female', age: 20};
+const user5 = {name: 'svitlana', gender: 'female', age: 20};
+const user6 = {name: 'olesya', gender: 'female', age: 20};
+const user7 = {name: 'oksana', gender: 'female', age: 20};
+const user8 = {name: 'diana', gender: 'female', age: 20};
 
-// writer.write(boys+'/'+'user2.txt',user2)
-// writer.write(boys+'/'+'user3.txt',user3)
-// writer.write(boys+'/'+'user5.txt',user5)
-// writer.write(boys+'/'+'user6.txt',user6)
-// writer.write(boys+'/'+'user7.txt',user7)
-// writer.write(boys+'/'+'user8.txt',user8)
- sort(girls, boys,'male');
+/*
+writer.write(path.join(boys,'user1.txt'),user1);
+writer.write(path.join(boys,'user2.txt'),user2);
+writer.write(path.join(boys,'user3.txt'),user3);
+writer.write(path.join(boys,'user4.txt'),user4);
+writer.write(path.join(boys,'user5.txt'),user5);
+writer.write(path.join(boys,'user6.txt'),user6);
+writer.write(path.join(boys,'user7.txt'),user7);
+writer.write(path.join(boys,'user8.txt'),user8);*/
 
+sort(boys, girls, 'female');
