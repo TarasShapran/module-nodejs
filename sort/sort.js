@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const sort = (fileDirection,newFileDirection,gender) => {
+const sort = (fileDirection, newFileDirection, gender) => {
     fs.readdir(fileDirection, ((err, data) => {
         if (err) {
             console.log(err);
@@ -9,7 +9,7 @@ const sort = (fileDirection,newFileDirection,gender) => {
         }
 
         data.forEach((file) => {
-            fs.readFile(path.join(fileDirection,file) , (e, data) => {
+            fs.readFile(path.join(fileDirection, file), (e, data) => {
                 let user = JSON.parse(data.toString());
 
                 if (user.gender === gender) {

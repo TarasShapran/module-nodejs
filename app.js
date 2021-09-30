@@ -1,5 +1,5 @@
 const writer = require('./writer/writer')
-const sort = require('./reader/reader')
+const sort = require('./sort/sort')
 
 const path = require("path");
 

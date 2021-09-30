@@ -4,4 +4,4 @@ const write = async (fileDirection, data) => {
     await fsPr.writeFile(fileDirection, JSON.stringify(data));
 };
 
-module.exports = { write };
+module.exports = {write};
