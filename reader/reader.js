@@ -23,14 +23,6 @@ const sortBoys = (fileDirection,newFileDirection,gender) => {
                         }
                     )
                 }
-                // if (user._gender === 'male') {
-                //     fs.rename(fileDirection + '/' + file,
-                //         path.join(newFileDirection, file),
-                //         err1 => {
-                //             console.log(err1)
-                //         }
-                //     )
-                // }
             })
         })
     }));
