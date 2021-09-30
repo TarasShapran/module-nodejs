@@ -5,7 +5,7 @@ const path = require("path");
 
 
 
-const sortBoys = (fileDirection,newFileDirection,gender) => {
+const sort = (fileDirection,newFileDirection,gender) => {
     fs.readdir(fileDirection, ((err, data) => {
         if (err) {
             console.log(err);
@@ -28,4 +28,4 @@ const sortBoys = (fileDirection,newFileDirection,gender) => {
     }));
 }
 
-module.exports = sortBoys
+module.exports = sort

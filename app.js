@@ -1,6 +1,6 @@
 let User = require('./user/User');
 let writer = require('./writer/writer')
-let sortBoys = require('./reader/reader')
+let sort = require('./reader/reader')
 
 const path = require("path");
 
@@ -21,5 +21,5 @@ const user8 = new User("diana", 'female', 20);
 // writer.write(boys+'/'+'user6.txt',user6)
 // writer.write(boys+'/'+'user7.txt',user7)
 // writer.write(boys+'/'+'user8.txt',user8)
- sortBoys(girls, boys,'male');
+ sort(girls, boys,'male');
 
