@@ -1,0 +1,1 @@
+{"_name":"oksana","_gender":"female","_age":20}
