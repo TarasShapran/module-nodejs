@@ -1,7 +1,6 @@
 const writer = require('./writer/writer')
 const sort = require('./sort/sort')
-
-const path = require("path");
+const path = require('path');
 
 const boys = path.join(__dirname, 'files', 'boys');
 const girls = path.join(__dirname, 'files', 'girls');

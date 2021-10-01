@@ -13,7 +13,7 @@ const sort = (fileDirection, newFileDirection, gender) => {
                 let user = JSON.parse(data.toString());
 
                 if (user.gender === gender) {
-                    fs.rename(fileDirection + '/' + file,
+                    fs.rename(path.join(fileDirection,file),
                         path.join(newFileDirection, file),
                         err1 => {
                             console.log(err1)
