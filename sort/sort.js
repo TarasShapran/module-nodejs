@@ -17,15 +17,15 @@ const sort = (fileDirection, newFileDirection, gender) => {
                         path.join(newFileDirection, file),
                         err1 => {
                             if (err1) {
-                                console.log(err1)
+                                console.log(err1);
                                 return;
                             }
                         }
                     );
                 }
-            })
+            });
         });
     }));
-}
+};
 
-module.exports = sort
+module.exports = sort;
