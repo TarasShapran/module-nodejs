@@ -10,13 +10,16 @@ const sort = (fileDirection, newFileDirection, gender) => {
 
         data.forEach((file) => {
             fs.readFile(path.join(fileDirection, file), (e, data) => {
-                let user = JSON.parse(data.toString());
+                const user = JSON.parse(data.toString());
 
                 if (user.gender === gender) {
-                    fs.rename(path.join(fileDirection,file),
+                    fs.rename(path.join(fileDirection, file),
                         path.join(newFileDirection, file),
                         err1 => {
-                            console.log(err1)
+                            if (err1) {
+                                console.log(err1)
+                                return;
+                            }
                         }
                     );
                 }
