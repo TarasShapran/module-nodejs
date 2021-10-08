@@ -4,9 +4,9 @@ module.exports = {
     userAuthMiddleware: async (req, res, next) => {
         try {
 
-            const userByEmail = await User.findOne({email: req.body.email, password: req.body.password});
+            const userAuth = await User.findOne({email: req.body.email, password: req.body.password});
 
-            if (!userByEmail) {
+            if (!userAuth) {
                 throw new Error('Wrong email or password');
             }
             next();
