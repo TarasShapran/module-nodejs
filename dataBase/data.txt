@@ -1,7 +1,0 @@
-{"id":1,"name":"taras","gender":"male","age":20},
-{"id":2,"name":"taras","gender":"male","age":20},
-{"id":3,"name":"taras","gender":"male","age":20},
-{"id":4,"name":"taras","gender":"male","age":20},
-{"id":5,"name":"taras","gender":"male","age":20},
-{"id":6,"name":"taras","gender":"male","age":20},
-{"id":7,"name":"taras","gender":"male","age":20},
