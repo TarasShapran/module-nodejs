@@ -39,6 +39,6 @@ module.exports = {
     },
 
     loginUser: (req, res) => {
-        res.json("userAuth");
+        res.json('userAuth');
     }
 };
