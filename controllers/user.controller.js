@@ -1,38 +1,58 @@
-const users = require('../dataBase/helper');
+const User = require('../dataBase/User');
 
 module.exports = {
     getUsers: async (req, res) => {
-        res.json(await users.getUsers());
+        try {
+
+            const users = await User.find();
+
+            res.json(users);
+
+        } catch (err) {
+
+            res.json(err);
+
+        }
+
     },
 
     getUserById: async (req, res) => {
-        const {user_id} = req.params;
+        try {
 
-        const foundUsers = await users.getUsers();
+            const {user_id} = req.params;
 
-        res.json(foundUsers[user_id - 1]);
+            const user = await User.findById(user_id);
+
+            res.json(user);
+        } catch (err) {
+
+            res.json(err);
+
+        }
+
     },
 
     createUser: async (req, res) => {
-        const foundUsers = await users.getUsers();
+        try {
+            const newUser = await User.create(req.body);
 
-        const user = {...req.body, id: foundUsers.length + 1};
-        foundUsers.push(user);
+            res.json(newUser);
+        } catch (err) {
+            res.json(err);
 
-        await users.writeUsers(foundUsers);
+        }
 
-        res.json(user);
     },
 
-    deleteUser: async (req, res) => {
-        const {user_id} = req.params;
+    deleteUser: (req, res) => {
 
-        const foundUsers = await users.getUsers();
+        res.json('delete');
 
-        const filteredUsers = foundUsers.filter(value => value.id !== +user_id);
+    },
 
-        await users.writeUsers(filteredUsers);
+    loginUser: (req, res) => {
 
-        res.json(filteredUsers);
+        res.json("userAuth");
+
     }
 };
