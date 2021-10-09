@@ -33,8 +33,16 @@ module.exports = {
         }
     },
 
-    deleteUser: (req, res) => {
-        res.json('delete');
+    deleteUser: async (req, res) => {
+        try {
+            const {user_id} = req.params;
+
+            await User.findByIdAndDelete(user_id);
+
+            res.json(`User with id: ${user_id} deleted`);
+        } catch (err) {
+            res.json(err);
+        }
     },
 
     loginUser: (req, res) => {
