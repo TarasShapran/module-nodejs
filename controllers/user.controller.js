@@ -31,7 +31,6 @@ module.exports = {
         } catch (err) {
             res.json(err);
         }
-
     },
 
     deleteUser: (req, res) => {
