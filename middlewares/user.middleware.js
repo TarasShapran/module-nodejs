@@ -25,7 +25,6 @@ module.exports = {
             if (!userId) {
                 throw new Error('user_id does not exist');
             }
-            console.log(`id : ${userId}`);
             next();
         } catch (err) {
             res.json(err.message);
