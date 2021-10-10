@@ -1,4 +1,5 @@
 const User = require('../dataBase/User');
+const userValidator = require('../validators/user.validator');
 
 module.exports = {
     createUserMiddleware: async (req, res, next) => {
@@ -24,6 +25,22 @@ module.exports = {
             if (!userId) {
                 throw new Error('user_id does not exist');
             }
+            console.log(`id : ${userId}`);
+            next();
+        } catch (err) {
+            res.json(err.message);
+        }
+    },
+    isUserBodyValid: (req, res, next) => {
+        try {
+            const {error, value} = userValidator.createUserValidator.validate(req.body);
+
+            if (error) {
+                throw new Error(error.details[0].message);
+            }
+
+            req.body = value;
+
             next();
         } catch (err) {
             res.json(err.message);
