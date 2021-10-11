@@ -27,8 +27,7 @@ router.get(
 router.put(
     '/:user_id',
     userMiddleware.checkUserIdMiddleware,
-    userMiddleware.isUserBodyValid,
-    userMiddleware.createUserMiddleware,
-    userController.createUser);
+    userMiddleware.updateUserMiddleware,
+    userController.updateUser);
 
 module.exports = router;

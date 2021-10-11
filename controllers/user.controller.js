@@ -6,9 +6,11 @@ const userUtil = require("../util/user.util");
 module.exports = {
     getUsers: async (req, res) => {
         try {
-            const users = await User.find();
+            const users = await User.find().lean();
 
-            res.json(users);
+            const normalizedUser = users.map(value => userUtil.userNormalizator(value));
+
+            res.json(normalizedUser);
         } catch (err) {
             res.json(err);
         }
@@ -36,7 +38,8 @@ module.exports = {
 
             const newUser = await User.create({...req.body, password: hashedPassword});
 
-            res.json(newUser);
+
+            res.json(`User with email: ${newUser.email} created`);
         } catch (err) {
             res.json(err);
         }
@@ -53,7 +56,7 @@ module.exports = {
             res.json(err);
         }
     },
-    updateUser:async (req, res)=>{
+    updateUser: async (req, res) => {
         try {
             const {user_id} = req.params;
 
@@ -61,9 +64,11 @@ module.exports = {
 
             const hashedPassword = await passwordService.hash(password);
 
-            const newUser = await User.findByIdAndUpdate(user_id,{...req.body, password: hashedPassword});
+            const newUser = await User.findByIdAndUpdate(user_id,{...req.body, password: hashedPassword},{new: true}).lean();
 
-            res.json(newUser);
+            const normalizedUser = userUtil.userNormalizator(newUser);
+
+            res.json(normalizedUser);
         } catch (err) {
             res.json(err);
         }

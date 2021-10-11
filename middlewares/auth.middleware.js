@@ -1,6 +1,6 @@
 const User = require('../dataBase/User');
-const passwordService = require("../service/password.service");
-const userValidator = require("../validators/user.validator");
+const passwordService = require('../service/password.service');
+const userValidator = require('../validators/user.validator');
 
 module.exports = {
     userAuthMiddleware: async (req, res, next) => {
