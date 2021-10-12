@@ -2,7 +2,8 @@ module.exports = {
     env: {
         browser: true,
         commonjs: true,
-        es2021: true
+        es2021: true,
+        node: true
     },
     parserOptions: {
         ecmaVersion: 12,
@@ -39,7 +40,7 @@ module.exports = {
         'newline-per-chained-call': 'error',
         'new-parens': 'error',
         'no-alert': 'error',
-        semi: "error",
+        semi: 'error',
         'no-duplicate-imports': 'error',
         'no-nested-ternary': 'error',
         'no-mixed-spaces-and-tabs': 'error',
@@ -144,6 +145,13 @@ module.exports = {
         ],
         'use-isnan': 'error',
         'wrap-iife': 'error',
-        yoda: 'error'
+        yoda: 'error',
+        quotes: [
+            2,
+            'single',
+            {
+                avoidEscape: true
+            }
+        ]
     },
 };

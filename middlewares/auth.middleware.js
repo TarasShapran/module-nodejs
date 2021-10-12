@@ -1,18 +1,34 @@
-const User = require('../dataBase/User');
+const userValidator = require('../validators/user.validator');
+const passwordService = require('../service/password.service');
 
 module.exports = {
-    userAuthMiddleware: async (req, res, next) => {
+
+    isUserAuthValid: (req, res, next) => {
         try {
-            const {email ,password } = req.body;
+            const {error, value} = userValidator.authUserValidator.validate(req.body);
 
-            const userAuth = await User.findOne(email,password);
-
-            if (!userAuth) {
-                throw new Error('Wrong email or password');
+            if (error) {
+                throw new Error(error.details[0].message);
             }
+
+            req.body = value;
+
             next();
         } catch (err) {
-            res.json(err.message);
+            next(err);
+        }
+    },
+
+    isPasswordMatched: async (req, res, next) => {
+        try {
+            const {password} = req.body;
+            const {password:hashPassword} = req.user;
+
+            await passwordService.compare(password,hashPassword);
+
+            next();
+        } catch (err) {
+            next(err);
         }
     }
 };
