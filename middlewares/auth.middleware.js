@@ -1,21 +1,8 @@
-const User = require('../dataBase/User');
-const passwordService = require('../service/password.service');
 const userValidator = require('../validators/user.validator');
+const passwordService = require('../service/password.service');
 
 module.exports = {
-    userAuthMiddleware: async (req, res, next) => {
-        try {
-            const {email, password} = req.body;
 
-            const userAuth = await User.findOne({email});
-
-            await passwordService.compare(password, userAuth.password);
-
-            next();
-        } catch (err) {
-            res.json(err.message);
-        }
-    },
     isUserAuthValid: (req, res, next) => {
         try {
             const {error, value} = userValidator.authUserValidator.validate(req.body);
@@ -28,7 +15,20 @@ module.exports = {
 
             next();
         } catch (err) {
-            res.json(err.message);
+            next(err);
+        }
+    },
+
+    isPasswordMatched: async (req, res, next) => {
+        try {
+            const {password} = req.body;
+            const {password:hashPassword} = req.user;
+
+            await passwordService.compare(password,hashPassword);
+
+            next();
+        } catch (err) {
+            next(err);
         }
     }
 };

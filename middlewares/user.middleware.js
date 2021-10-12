@@ -1,5 +1,6 @@
 const User = require('../dataBase/User');
 const userValidator = require('../validators/user.validator');
+const ErrorHandler = require('../errors/ErrorHandler');
 
 module.exports = {
     createUserMiddleware: async (req, res, next) => {
@@ -9,12 +10,12 @@ module.exports = {
             const userByEmail = await User.findOne({email});
 
             if (userByEmail) {
-                throw new Error('Email already exist');
+                throw new ErrorHandler('Email already exist',400);
             }
 
             next();
         } catch (err) {
-            res.json(err.message);
+            next(err);
         }
     },
     updateUserMiddleware: (req, res, next) => {
@@ -22,7 +23,7 @@ module.exports = {
             const { email } = req.body;
 
             if ( email ) {
-                throw new Error('You can not change the email');
+                throw new ErrorHandler('You can not change the email',400);
             }
             const {error, value} = userValidator.updateUserValidator.validate(req.body);
 
@@ -34,7 +35,7 @@ module.exports = {
 
             next();
         } catch (err) {
-            res.json(err.message);
+            next(err);
         }
     },
 
@@ -45,12 +46,12 @@ module.exports = {
             const userId = await User.findById(user_id);
 
             if (!userId) {
-                throw new Error('user_id does not exist');
+                throw new ErrorHandler('User_id does not exist',400);
             }
 
             next();
         } catch (err) {
-            res.json(err.message);
+            next(err);
         }
     },
 
@@ -65,7 +66,40 @@ module.exports = {
             req.body = value;
             next();
         } catch (err) {
-            res.json(err.message);
+            next(err);
+        }
+    },
+
+    isUserPresent: async (req, res, next) => {
+        try {
+            const {email} = req.body;
+
+            const userByEmail = await User
+                .findOne({email})
+                .lean();
+
+            if (!userByEmail){
+                throw new ErrorHandler('Wrong email or password',400);
+            }
+
+            req.user=userByEmail;
+
+            next();
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    checkUserRole:(roleArr=[])=>(req, res, next)=>{
+        try {
+            const {role} = req.user;
+            if (!roleArr.includes(role)){
+                throw new ErrorHandler('Access denied ',400);
+            }
+
+            next();
+        }catch (err) {
+            next(err);
         }
     }
 };
