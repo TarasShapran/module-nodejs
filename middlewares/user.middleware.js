@@ -96,7 +96,7 @@ module.exports = {
         try {
             const {role} = req.user;
             if (!roleArr.includes(role)){
-                throw new ErrorHandler('Access denied ',400);
+                throw new ErrorHandler('Access denied ',403);
             }
 
             next();
