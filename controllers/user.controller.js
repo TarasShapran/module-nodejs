@@ -17,14 +17,11 @@ module.exports = {
         }
     },
 
-    getUserById: async (req, res, next) => {
+    getUserById: (req, res, next) => {
         try {
-            const {user_id} = req.params;
+            const user = req.user;
 
-            const user = await User.findById(user_id)
-                .lean();
-
-            const normalizedUser = userUtil.userNormalizator(user);
+            const normalizedUser = userUtil.userNormalizator(user.toObject());
 
             res.json(normalizedUser);
         } catch (err) {

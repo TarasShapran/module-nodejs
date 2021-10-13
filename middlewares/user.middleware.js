@@ -49,6 +49,8 @@ module.exports = {
                 throw new ErrorHandler('User_id does not exist',400);
             }
 
+            req.user = userId;
+
             next();
         } catch (err) {
             next(err);
