@@ -1,7 +1,6 @@
-const User = require('../dataBase/User');
+const {User} = require('../dataBase');
 const passwordService = require('../service/password.service');
 const userUtil = require('../util/user.util');
-
 
 module.exports = {
     getUsers: async (req, res, next) => {
@@ -56,6 +55,7 @@ module.exports = {
             next(err);
         }
     },
+
     updateUser: async (req, res, next) => {
         try {
             const {user_id} = req.params;

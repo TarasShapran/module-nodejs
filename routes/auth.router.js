@@ -1,15 +1,13 @@
 const router = require('express')
     .Router();
 
-const authController = require('../controllers/auth.controller');
+const {authController} = require('../controllers');
 const {userMiddleware, authMiddleware} = require('../middlewares');
-const {ADMIN} = require('../configs/user-roles.enum');
 
 router.post(
     '/',
     authMiddleware.isUserAuthValid,
     userMiddleware.isUserPresent,
-    userMiddleware.checkUserRole([ADMIN]),
     authMiddleware.isPasswordMatched,
     authController.login
 );

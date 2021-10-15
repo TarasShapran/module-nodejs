@@ -1,7 +1,7 @@
 const Car = require('../dataBase/Car');
 const ErrorHandler = require('../errors/ErrorHandler');
-const carValidator = require('../validators/car.validator');
-
+const {carValidator} = require('../validators');
+const {constants: NOT_FOUND} = require('../configs');
 
 module.exports = {
     isCarBodyValid: (req, res, next) => {
@@ -41,9 +41,9 @@ module.exports = {
             const {car_id} = req.params;
 
             const carId = await Car.findById(car_id);
-            console.log(carId);
+
             if (!carId) {
-                throw new ErrorHandler('CarId does not exist', 400);
+                throw new ErrorHandler('CarId does not exist', NOT_FOUND);
             }
 
             req.car = carId;
@@ -52,16 +52,5 @@ module.exports = {
         } catch (err) {
             next(err);
         }
-    },
-
-    isCarPresent: (req, res, next) => {
-        try {
-
-
-            next();
-        } catch (err) {
-            next(err);
-        }
     }
-
 };

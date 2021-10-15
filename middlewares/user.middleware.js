@@ -1,6 +1,7 @@
 const User = require('../dataBase/User');
-const userValidator = require('../validators/user.validator');
+const {userValidator} = require('../validators');
 const ErrorHandler = require('../errors/ErrorHandler');
+const {constants} = require('../configs');
 
 module.exports = {
     createUserMiddleware: async (req, res, next) => {
@@ -10,7 +11,7 @@ module.exports = {
             const userByEmail = await User.findOne({email});
 
             if (userByEmail) {
-                throw new ErrorHandler('Email already exist',400);
+                throw new ErrorHandler('Email already exist', constants.NOT_FOUND);
             }
 
             next();
@@ -18,17 +19,18 @@ module.exports = {
             next(err);
         }
     },
+
     updateUserMiddleware: (req, res, next) => {
         try {
-            const { email } = req.body;
+            const {email, password, role} = req.body;
 
-            if ( email ) {
-                throw new ErrorHandler('You can not change the email',400);
+            if (email || password || role) {
+                throw new ErrorHandler('You can not change email , password or role', constants.BAD_REQUEST);
             }
             const {error, value} = userValidator.updateUserValidator.validate(req.body);
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(error.details[0].message);
             }
 
             req.body = value;
@@ -46,7 +48,7 @@ module.exports = {
             const userId = await User.findById(user_id);
 
             if (!userId) {
-                throw new ErrorHandler('User_id does not exist',400);
+                throw new ErrorHandler('User_id does not exist', constants.NOT_FOUND);
             }
 
             req.user = userId;
@@ -80,11 +82,11 @@ module.exports = {
                 .findOne({email})
                 .lean();
 
-            if (!userByEmail){
-                throw new ErrorHandler('Wrong email or password',400);
+            if (!userByEmail) {
+                throw new ErrorHandler('Wrong email or password', constants.BAD_REQUEST);
             }
 
-            req.user=userByEmail;
+            req.user = userByEmail;
 
             next();
         } catch (err) {
@@ -92,15 +94,15 @@ module.exports = {
         }
     },
 
-    checkUserRole:(roleArr=[])=>(req, res, next)=>{
+    checkUserRole: (roleArr = []) => (req, res, next) => {
         try {
             const {role} = req.user;
-            if (!roleArr.includes(role)){
-                throw new ErrorHandler('Access denied ',403);
+            if (!roleArr.includes(role)) {
+                throw new ErrorHandler('Access denied ', constants.FORBIDDEN);
             }
 
             next();
-        }catch (err) {
+        } catch (err) {
             next(err);
         }
     }

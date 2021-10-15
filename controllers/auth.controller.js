@@ -1,7 +1,7 @@
 const {userNormalizator} = require('../util/user.util');
 
 module.exports = {
-    login: (req, res,next) => {
+    login: (req, res, next) => {
         try {
             const {user} = req;
 
