@@ -60,11 +60,7 @@ module.exports = {
         try {
             const {user_id} = req.params;
 
-            const {password} = req.body;
-
-            const hashedPassword = await passwordService.hash(password);
-
-            const newUser = await User.findByIdAndUpdate(user_id, {...req.body, password: hashedPassword}, {new: true})
+            const newUser = await User.findByIdAndUpdate(user_id, req.body, {new: true})
                 .lean();
 
             const normalizedUser = userUtil.userNormalizator(newUser);

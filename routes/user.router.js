@@ -3,7 +3,7 @@ const router = require('express')
 
 const {userController} = require('../controllers');
 const {userMiddleware} = require('../middlewares');
-const {userRoles: ADMIN} = require('../configs');
+const {userRoles: {ADMIN}} = require('../configs');
 
 router.get(
     '/',

@@ -11,7 +11,7 @@ module.exports = {
             const userByEmail = await User.findOne({email});
 
             if (userByEmail) {
-                throw new ErrorHandler('Email already exist', constants.NOT_FOUND);
+                throw new ErrorHandler(constants.EMAIL_ALREADY_EXISTS, constants.NOT_FOUND);
             }
 
             next();
@@ -25,12 +25,12 @@ module.exports = {
             const {email, password, role} = req.body;
 
             if (email || password || role) {
-                throw new ErrorHandler('You can not change email , password or role', constants.BAD_REQUEST);
+                throw new ErrorHandler(constants.CAN_NOT_CHANGE_FIELDS, constants.BAD_REQUEST);
             }
             const {error, value} = userValidator.updateUserValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(error.details[0].message);
+                throw new ErrorHandler(error.details[0].message, constants.NOT_FOUND);
             }
 
             req.body = value;
@@ -48,7 +48,7 @@ module.exports = {
             const userId = await User.findById(user_id);
 
             if (!userId) {
-                throw new ErrorHandler('User_id does not exist', constants.NOT_FOUND);
+                throw new ErrorHandler(constants.USER_ID_DOES_NOT_EXIST, constants.NOT_FOUND);
             }
 
             req.user = userId;
@@ -64,7 +64,7 @@ module.exports = {
             const {error, value} = userValidator.createUserValidator.validate(req.body);
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(error.details[0].message, constants.NOT_FOUND);
             }
 
             req.body = value;
@@ -83,7 +83,7 @@ module.exports = {
                 .lean();
 
             if (!userByEmail) {
-                throw new ErrorHandler('Wrong email or password', constants.BAD_REQUEST);
+                throw new ErrorHandler(constants.WRONG_EMAIL_OR_PASSWORD, constants.BAD_REQUEST);
             }
 
             req.user = userByEmail;
@@ -98,7 +98,7 @@ module.exports = {
         try {
             const {role} = req.user;
             if (!roleArr.includes(role)) {
-                throw new ErrorHandler('Access denied ', constants.FORBIDDEN);
+                throw new ErrorHandler(constants.ACCESS_DENIED, constants.FORBIDDEN);
             }
 
             next();

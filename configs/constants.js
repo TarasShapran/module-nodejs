@@ -6,5 +6,11 @@ module.exports = {
     BAD_REQUEST: 400,
     NOT_FOUND: 404,
     INTERNAL_SERVER_ERROR: 500,
-    FORBIDDEN: 403
+    FORBIDDEN: 403,
+    EMAIL_ALREADY_EXISTS: 'Email already exist',
+    ACCESS_DENIED: 'Access denied',
+    WRONG_EMAIL_OR_PASSWORD: 'Wrong email or password',
+    CAN_NOT_CHANGE_FIELDS: 'You can not change email , password or role',
+    USER_ID_DOES_NOT_EXIST: 'User_id does not exist',
+    CAR_ID_DOES_NOT_EXIST: 'Car_id does not exist'
 };

@@ -1,6 +1,7 @@
 const {userValidator} = require('../validators');
 const passwordService = require('../service/password.service');
 const ErrorHandler = require('../errors/ErrorHandler');
+const {constants} = require('../configs');
 
 module.exports = {
     isUserAuthValid: (req, res, next) => {
@@ -8,7 +9,7 @@ module.exports = {
             const {error, value} = userValidator.authUserValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(error.details[0].message);
+                throw new ErrorHandler(error.details[0].message,constants.NOT_FOUND);
             }
 
             req.body = value;
