@@ -1,17 +1,30 @@
 const {userNormalizator} = require('../util/user.util');
+const {jwtService} = require('../service');
+const {O_Auth} = require('../dataBase');
 
 module.exports = {
-    login: (req, res, next) => {
+    login: async (req, res, next) => {
         try {
             const {user} = req;
 
+            const tokenPair = jwtService.generateTokenPair();
+
             const userNormalized = userNormalizator(user);
 
-            res.json(userNormalized);
+            await O_Auth.create({
+                ...tokenPair,
+                user_id: userNormalized._id
+            });
+
+            res.json({
+                user: userNormalized,
+                ...tokenPair
+            });
         } catch (e) {
             next(e);
         }
     },
+
     logout: (req, res) => {
         res.json('userAuth');
     }

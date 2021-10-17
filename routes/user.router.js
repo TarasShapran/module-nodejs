@@ -2,7 +2,7 @@ const router = require('express')
     .Router();
 
 const {userController} = require('../controllers');
-const {userMiddleware} = require('../middlewares');
+const {userMiddleware, authMiddleware} = require('../middlewares');
 const {userRoles: {ADMIN}} = require('../configs');
 
 router.get(
@@ -18,6 +18,7 @@ router.post(
 router.delete(
     '/:user_id',
     userMiddleware.checkUserIdMiddleware,
+    authMiddleware.checkAccessToken,
     userMiddleware.checkUserRole([ADMIN]),
     userController.deleteUser);
 
