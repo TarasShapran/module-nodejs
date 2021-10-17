@@ -9,7 +9,7 @@ module.exports = {
             const {error, value} = userValidator.authUserValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(error.details[0].message,constants.NOT_FOUND);
+                throw new ErrorHandler(error.details[0].message,constants.BAD_REQUEST);
             }
 
             req.body = value;

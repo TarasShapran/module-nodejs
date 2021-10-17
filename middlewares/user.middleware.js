@@ -11,7 +11,7 @@ module.exports = {
             const userByEmail = await User.findOne({email});
 
             if (userByEmail) {
-                throw new ErrorHandler(constants.EMAIL_ALREADY_EXISTS, constants.NOT_FOUND);
+                throw new ErrorHandler(constants.EMAIL_ALREADY_EXISTS, constants.BAD_REQUEST);
             }
 
             next();
@@ -30,7 +30,7 @@ module.exports = {
             const {error, value} = userValidator.updateUserValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(error.details[0].message, constants.NOT_FOUND);
+                throw new ErrorHandler(error.details[0].message, constants.BAD_REQUEST);
             }
 
             req.body = value;
@@ -48,7 +48,7 @@ module.exports = {
             const userId = await User.findById(user_id);
 
             if (!userId) {
-                throw new ErrorHandler(constants.USER_ID_DOES_NOT_EXIST, constants.NOT_FOUND);
+                throw new ErrorHandler(constants.USER_ID_DOES_NOT_EXIST, constants.BAD_REQUEST);
             }
 
             req.user = userId;
@@ -64,7 +64,7 @@ module.exports = {
             const {error, value} = userValidator.createUserValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(error.details[0].message, constants.NOT_FOUND);
+                throw new ErrorHandler(error.details[0].message, constants.BAD_REQUEST);
             }
 
             req.body = value;
