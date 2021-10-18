@@ -10,7 +10,7 @@ module.exports = {
             const {error, value} = userValidator.authUserValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(error.details[0].message, constants.NOT_FOUND);
+                throw new ErrorHandler(error.details[0].message, constants.BAD_REQUEST);
             }
 
             req.body = value;
@@ -53,6 +53,7 @@ module.exports = {
             }
 
             req.user = tokenResponse.user_id;
+            req.token = token;
 
             next();
         } catch (err) {
@@ -78,11 +79,8 @@ module.exports = {
                 throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
             }
 
-            await O_Auth.deleteOne({
-                refresh_token: token
-            });
-
             req.user = tokenResponse.user_id;
+            req.token = token;
 
             next();
         } catch (err) {
@@ -90,63 +88,4 @@ module.exports = {
         }
     },
 
-    checkLogoutToken: async (req, res, next) => {
-        try {
-            const token = req.get(constants.AUTHORIZATION);
-
-            if (!token) {
-                throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
-            }
-
-            await jwtService.verifyToken(token);
-
-            const tokenResponse = await O_Auth
-                .findOne({access_token: token})
-                .populate('user_id');
-
-            if (!tokenResponse) {
-                throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
-            }
-
-            await O_Auth.deleteOne({
-                access_token: token
-            });
-
-            req.user = tokenResponse.user_id;
-
-            next();
-        } catch (err) {
-            next(err);
-        }
-    },
-
-    checkLogoutAllToken: async (req, res, next) => {
-        try {
-            const token = req.get(constants.AUTHORIZATION);
-
-            if (!token) {
-                throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
-            }
-
-            await jwtService.verifyToken(token);
-
-            const tokenResponse = await O_Auth
-                .findOne({access_token: token})
-                .populate('user_id');
-
-            if (!tokenResponse) {
-                throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
-            }
-
-            await O_Auth.deleteMany({
-                user_id: tokenResponse.user_id
-            });
-
-            req.user = tokenResponse.user_id;
-
-            next();
-        } catch (err) {
-            next(err);
-        }
-    }
 };

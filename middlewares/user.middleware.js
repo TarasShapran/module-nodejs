@@ -22,15 +22,15 @@ module.exports = {
 
     updateUserMiddleware: (req, res, next) => {
         try {
-            const {email, password, role} = req.body;
+            /*const {email, password, role} = req.body;*/
 
-            if (email || password || role) {
+/*            if (email || password || role) {
                 throw new ErrorHandler(constants.CAN_NOT_CHANGE_FIELDS, constants.BAD_REQUEST);
-            }
+            }*/
             const {error, value} = userValidator.updateUserValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(error.details[0].message, constants.NOT_FOUND);
+                throw new ErrorHandler(error.details[0].message, constants.BAD_REQUEST);
             }
 
             req.body = value;
@@ -48,7 +48,7 @@ module.exports = {
             const userId = await User.findById(user_id);
 
             if (!userId) {
-                throw new ErrorHandler(constants.USER_ID_DOES_NOT_EXIST, constants.NOT_FOUND);
+                throw new ErrorHandler(constants.USER_ID_DOES_NOT_EXIST, constants.BAD_REQUEST);
             }
 
             req.user = userId;
@@ -64,7 +64,7 @@ module.exports = {
             const {error, value} = userValidator.createUserValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(error.details[0].message, constants.NOT_FOUND);
+                throw new ErrorHandler(error.details[0].message, constants.BAD_REQUEST);
             }
 
             req.body = value;

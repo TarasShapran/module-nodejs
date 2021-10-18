@@ -14,20 +14,20 @@ router.post(
 
 router.post(
     '/logout',
-    authMiddleware.checkLogoutToken,
+    authMiddleware.checkAccessToken,
     authController.logout
 );
 
 router.post(
     '/logout-all',
-    authMiddleware.checkLogoutAllToken,
-    authController.logout
+    authMiddleware.checkAccessToken,
+    authController.logoutAll
 );
 
 router.post(
     '/refresh',
     authMiddleware.checkRefreshToken,
-    authController.login
+    authController.refresh
 );
 
 module.exports = router;

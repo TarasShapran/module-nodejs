@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const ErrorHandler = require('../errors/ErrorHandler');
-const {config, tokenTypeEnum} = require('../configs');
+const {config, tokenTypeEnum,constants} = require('../configs');
 const {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET} = require('../configs/config');
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
 
             jwt.verify(token, secret);
         } catch (e) {
-            throw new ErrorHandler('Invalid token', 401);
+            throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
         }
     }
 };
