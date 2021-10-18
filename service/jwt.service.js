@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const ErrorHandler = require('../errors/ErrorHandler');
-const {config , tokenTypeEnum} = require('../configs');
+const {config, tokenTypeEnum} = require('../configs');
 const {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET} = require('../configs/config');
 
 module.exports = {

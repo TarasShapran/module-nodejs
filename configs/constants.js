@@ -13,5 +13,7 @@ module.exports = {
     CAN_NOT_CHANGE_FIELDS: 'You can not change email , password or role',
     USER_ID_DOES_NOT_EXIST: 'User_id does not exist',
     CAR_ID_DOES_NOT_EXIST: 'Car_id does not exist',
-    AUTHORIZATION:'Authorization'
+    AUTHORIZATION: 'Authorization',
+    INVALID_TOKEN: 'Invalid token',
+    UNAUTHORIZED: 401
 };

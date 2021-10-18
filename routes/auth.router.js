@@ -14,6 +14,13 @@ router.post(
 
 router.post(
     '/logout',
+    authMiddleware.checkLogoutToken,
+    authController.logout
+);
+
+router.post(
+    '/logout-all',
+    authMiddleware.checkLogoutAllToken,
     authController.logout
 );
 

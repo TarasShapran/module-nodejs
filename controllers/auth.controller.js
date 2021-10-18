@@ -25,7 +25,13 @@ module.exports = {
         }
     },
 
-    logout: (req, res) => {
-        res.json('userAuth');
+    logout: (req, res, next) => {
+        try {
+            const {user} = req;
+
+            res.json(`User with email: ${user.email} successfully logout`);
+        } catch (e) {
+            next(e);
+        }
     }
 };
