@@ -4,6 +4,7 @@ module.exports = {
 
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || 'xxx',
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'zzz',
+    JWT_ACTION_SECRET: process.env.JWT_ACTION_SECRET || 'qqq',
 
     NO_REPLY_EMAIL_PASSWORD: process.env.NO_REPLY_EMAIL_PASSWORD || '11111111',
     NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || 'email@gmail.com'

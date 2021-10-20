@@ -45,8 +45,7 @@ module.exports = {
             await jwtService.verifyToken(token);
 
             const tokenResponse = await O_Auth
-                .findOne({accessToken: token})
-                .populate('user_id');
+                .findOne({accessToken: token});
 
             if (!tokenResponse) {
                 throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
@@ -72,8 +71,7 @@ module.exports = {
             await jwtService.verifyToken(token, tokenTypeEnum.REFRESH);
 
             const tokenResponse = await O_Auth
-                .findOne({refresh_token: token})
-                .populate('user_id');
+                .findOne({refresh_token: token});
 
             if (!tokenResponse) {
                 throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);

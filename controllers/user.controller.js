@@ -1,5 +1,5 @@
 const {User, O_Auth} = require('../dataBase');
-const {passwordService,emailService} = require('../service');
+const {emailService} = require('../service');
 const userUtil = require('../util/user.util');
 const {emailActionsEnum} = require('../configs');
 
@@ -31,13 +31,11 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
-            const {password, name} = req.body;
-
-            const hashedPassword = await passwordService.hash(password);
+            const {name} = req.body;
 
             await emailService.sendMail(req.body.email, emailActionsEnum.WELCOME, {userName: name});
 
-            const newUser = await User.create({...req.body, password: hashedPassword});
+            const newUser = await User.createUserWithHashPassword(req.body);
 
             const normalizedUser = userUtil.userNormalizator(newUser.toObject());
 
@@ -70,7 +68,7 @@ module.exports = {
             const newUser = await User.findByIdAndUpdate(user_id, req.body, {new: true})
                 .lean();
 
-            await emailService.sendMail(newUser.email, emailActionsEnum.UPDATE,{userName:newUser.name});
+            await emailService.sendMail(newUser.email, emailActionsEnum.UPDATE, {userName: newUser.name});
 
             const normalizedUser = userUtil.userNormalizator(newUser);
 

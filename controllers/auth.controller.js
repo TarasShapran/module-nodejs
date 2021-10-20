@@ -1,6 +1,8 @@
 const {userNormalizator} = require('../util/user.util');
 const {jwtService} = require('../service');
-const {O_Auth} = require('../dataBase');
+const {O_Auth, User} = require('../dataBase');
+const {NOT_FOUND} = require('../configs/constants');
+const ErrorHandler = require('../errors/ErrorHandler');
 
 module.exports = {
     login: async (req, res, next) => {
@@ -77,6 +79,23 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    }
+    },
 
+    sendMailForgotPassword: async (req, res, next) => {
+        try {
+            const {email} = req.body;
+
+            const user = await User.findOne({email});
+
+            if (!user){
+                throw new ErrorHandler('User not found',NOT_FOUND);
+            }
+
+
+            res.json('Ok');
+        } catch (e) {
+            next(e);
+        }
+    },
 };
+

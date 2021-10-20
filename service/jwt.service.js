@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const ErrorHandler = require('../errors/ErrorHandler');
-const {config, tokenTypeEnum, constants} = require('../configs');
+const {config, tokenTypeEnum, constants, actionTokenTypeEnum} = require('../configs');
 
 module.exports = {
     generateTokenPair: () => {
@@ -12,6 +12,7 @@ module.exports = {
             refresh_token
         };
     },
+
     verifyToken: (token, tokenType = tokenTypeEnum.ACCESS) => {
         try {
             const secret = tokenType === tokenTypeEnum.ACCESS ? config.JWT_ACCESS_SECRET : config.JWT_REFRESH_SECRET;
@@ -20,5 +21,17 @@ module.exports = {
         } catch (e) {
             throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
         }
-    }
+    },
+
+    generateActionToken: (actionTokenType) => {
+        let secretWord;
+        switch (actionTokenType) {
+            case actionTokenTypeEnum.FORGOT_PASSWORD:
+                secretWord = 'hjfhfhfh';
+                break;
+        }
+
+        return jwt.sign({}, config.JWT_ACCESS_SECRET, {expiresIn: '15m'});
+
+    },
 };
