@@ -24,9 +24,9 @@ module.exports = {
         try {
             /*const {email, password, role} = req.body;*/
 
-/*            if (email || password || role) {
-                throw new ErrorHandler(constants.CAN_NOT_CHANGE_FIELDS, constants.BAD_REQUEST);
-            }*/
+            /*            if (email || password || role) {
+                            throw new ErrorHandler(constants.CAN_NOT_CHANGE_FIELDS, constants.BAD_REQUEST);
+                        }*/
             const {error, value} = userValidator.updateUserValidator.validate(req.body);
 
             if (error) {

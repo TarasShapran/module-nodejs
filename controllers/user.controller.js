@@ -1,7 +1,6 @@
-const {User} = require('../dataBase');
-const passwordService = require('../service/password.service');
+const {User, O_Auth} = require('../dataBase');
+const {passwordService,emailService} = require('../service');
 const userUtil = require('../util/user.util');
-const {emailService} = require('../service');
 const {emailActionsEnum} = require('../configs');
 
 module.exports = {
@@ -32,11 +31,11 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
-            const {password,name} = req.body;
+            const {password, name} = req.body;
 
             const hashedPassword = await passwordService.hash(password);
 
-            await emailService.sendMail(req.body.email,emailActionsEnum.WELCOME,{userName:name});
+            await emailService.sendMail(req.body.email, emailActionsEnum.WELCOME, {userName: name});
 
             const newUser = await User.create({...req.body, password: hashedPassword});
 
@@ -52,9 +51,11 @@ module.exports = {
         try {
             const {user_id} = req.params;
 
-            await User.findByIdAndDelete(user_id);
+            await O_Auth.deleteMany({user_id});
 
-            await emailService.sendMail(req.body.email,emailActionsEnum.DELETE);
+            await User.deleteOne({_id: user_id});
+
+            await emailService.sendMail(req.body.email, emailActionsEnum.DELETE);
 
             res.json(`User with id: ${user_id} deleted`);
         } catch (err) {

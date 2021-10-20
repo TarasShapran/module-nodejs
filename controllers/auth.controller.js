@@ -27,7 +27,7 @@ module.exports = {
 
     logout: async (req, res, next) => {
         try {
-            const {user,token} = req;
+            const {user, token} = req;
 
             await O_Auth.deleteOne({
                 access_token: token
@@ -42,7 +42,6 @@ module.exports = {
     logoutAll: async (req, res, next) => {
         try {
             const {user} = req;
-            console.log(user._id);
 
             await O_Auth.deleteMany({
                 user_id: user._id

@@ -2,35 +2,36 @@ const EmailTemplates = require('email-templates');
 const nodemailer = require('nodemailer');
 const path = require('path');
 
-const {NO_REPLY_EMAIL, NO_REPLY_EMAIL_PASSWORD} = require('../configs/config');
 const allTemplates = require('../email-templates');
+const {constants,config} = require('../configs');
+const ErrorHandler = require('../errors/ErrorHandler');
 
 const templateParser = new EmailTemplates({
     views: {
-        root: path.join(process.cwd(),'email-templates')
+        root: path.join(process.cwd(), 'email-templates')
     }
 });
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: NO_REPLY_EMAIL,
-        pass: NO_REPLY_EMAIL_PASSWORD
+        user:config.NO_REPLY_EMAIL,
+        pass: config.NO_REPLY_EMAIL_PASSWORD
     }
 });
 
-const sendMail =async (userMail, emailAction,context={}) => {
-    const templateInfo =allTemplates[emailAction];
+const sendMail = async (userMail, emailAction, context = {}) => {
+    const templateInfo = allTemplates[emailAction];
 
-    if (!templateInfo){
-        throw new Error('Wrong template name');
+    if (!templateInfo) {
+        throw new ErrorHandler('Wrong template name',constants.METHOD_NOT_ALLOWED);
     }
-    const html = await templateParser.render(templateInfo.templateName,context);
+    const html = await templateParser.render(templateInfo.templateName, context);
 
     return transporter.sendMail({
         from: 'No reply',
         to: userMail,
-        subject:templateInfo.subject,
+        subject: templateInfo.subject,
         html
     });
 };
