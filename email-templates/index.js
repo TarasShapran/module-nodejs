@@ -16,5 +16,9 @@ module.exports = {
     [emailActionsEnum.DELETE]: {
         templateName: 'delete',
         subject: 'Deleted'
+    },
+    [emailActionsEnum.UPDATE]: {
+        templateName: 'update',
+        subject: 'Updated'
     }
 };

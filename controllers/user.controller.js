@@ -70,6 +70,8 @@ module.exports = {
             const newUser = await User.findByIdAndUpdate(user_id, req.body, {new: true})
                 .lean();
 
+            await emailService.sendMail(newUser.email, emailActionsEnum.UPDATE,{userName:newUser.name});
+
             const normalizedUser = userUtil.userNormalizator(newUser);
 
             res.json(normalizedUser);
