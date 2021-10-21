@@ -26,6 +26,12 @@ module.exports = {
                 case tokenTypeEnum.REFRESH:
                     secretWord = config.JWT_REFRESH_SECRET;
                     break;
+                case actionTokenTypeEnum.CHANGE_PASSWORD:
+                    secretWord = config.JWT_ACTION_SECRET;
+                    break;
+                case actionTokenTypeEnum.ACTIVATE:
+                    secretWord = config.JWT_ACTION_SECRET;
+                    break;
                 default:
                     throw new ErrorHandler(constants.WRONG_TOKEN_TYPE, constants.INTERNAL_SERVER_ERROR);
             }
@@ -39,6 +45,12 @@ module.exports = {
         let secretWord;
         switch (actionTokenType) {
             case actionTokenTypeEnum.FORGOT_PASSWORD:
+                secretWord = config.JWT_ACTION_SECRET;
+                break;
+            case actionTokenTypeEnum.CHANGE_PASSWORD:
+                secretWord = config.JWT_ACTION_SECRET;
+                break;
+            case actionTokenTypeEnum.ACTIVATE:
                 secretWord = config.JWT_ACTION_SECRET;
                 break;
             default:

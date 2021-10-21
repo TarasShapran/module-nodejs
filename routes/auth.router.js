@@ -40,4 +40,9 @@ router.put(
     authMiddleware.checkActionToken,
     authController.setNewPasswordAfterForgot);
 
+router.get(
+    '/activate/:token',
+    authMiddleware.checkActivateToken,
+    authController.activate);
+
 module.exports = router;

@@ -126,6 +126,27 @@ module.exports = {
         } catch (err) {
             next(err);
         }
+    },
+
+    checkActivateToken: async (req, res, next) => {
+        try {
+            const {token} = req.params;
+
+            await jwtService.verifyToken(token, actionTokenTypeEnum.ACTIVATE);
+
+            const {user_id:user, _id} = await ActionToken.findOne({token, token_type: actionTokenTypeEnum.ACTIVATE});
+
+            if (!user) {
+                throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
+            }
+
+            await ActionToken.deleteOne({_id});
+
+            req.user = user;
+        } catch (e) {
+            next(e);
+        }
+
     }
 
 };

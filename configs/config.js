@@ -3,6 +3,7 @@ module.exports = {
     PORT: process.env.PORT || 5000,
 
     LOCALHOST_3000: 'http://localhost:3000/',
+    LOCALHOST_5000: 'http://localhost:5000/',
 
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || 'xxx',
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'zzz',

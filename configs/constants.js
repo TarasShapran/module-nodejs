@@ -4,6 +4,9 @@ module.exports = {
     MAX_YEAR: (new Date().getFullYear() - 2),
     MIN_YEAR: (new Date().getFullYear() - 40),
 
+    OK: 200,
+    CREATED: 201,
+    NO_CONTENT: 204,
     BAD_REQUEST: 400,
     UNAUTHORIZED: 401,
     FORBIDDEN: 403,
@@ -19,5 +22,6 @@ module.exports = {
     INVALID_TOKEN: 'Invalid token',
     USER_ID_DOES_NOT_EXIST: 'User_id does not exist',
     WRONG_EMAIL_OR_PASSWORD: 'Wrong email or password',
-    WRONG_TOKEN_TYPE: 'Wrong token type'
+    WRONG_TOKEN_TYPE: 'Wrong token type',
+    USER_IS_ACTIVE: 'User is Active'
 };

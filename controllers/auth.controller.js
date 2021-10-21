@@ -130,6 +130,19 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    }
+    },
+
+    activate: async (req, res, next) => {
+        try {
+            const {user:{_id}} = req.user;
+            console.log(_id);
+            await User.updateOne({_id}, {is_active: true});
+
+            res.json(constants.USER_IS_ACTIVE)
+                .status(constants.OK);
+        } catch (e) {
+            next(e);
+        }
+    },
 };
 

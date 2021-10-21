@@ -1,7 +1,7 @@
-const {User, O_Auth} = require('../dataBase');
-const {emailService} = require('../service');
+const {User, O_Auth, ActionToken} = require('../dataBase');
+const {emailService, jwtService} = require('../service');
 const userUtil = require('../util/user.util');
-const {emailActionsEnum} = require('../configs');
+const {emailActionsEnum, actionTokenTypeEnum, config} = require('../configs');
 
 module.exports = {
     getUsers: async (req, res, next) => {
@@ -33,9 +33,19 @@ module.exports = {
         try {
             const {name} = req.body;
 
-            await emailService.sendMail(req.body.email, emailActionsEnum.WELCOME, {userName: name});
-
             const newUser = await User.createUserWithHashPassword(req.body);
+
+            const token = jwtService.generateActionToken(actionTokenTypeEnum.ACTIVATE);
+
+            await ActionToken.create({token, token_type: actionTokenTypeEnum.ACTIVATE, user_id: newUser._id});
+
+            await emailService.sendMail(
+                req.body.email,
+                emailActionsEnum.WELCOME,
+                {
+                    userName: name,
+                    activateUrl: `${config.LOCALHOST_5000}auth/activate/${token}`
+                });
 
             const normalizedUser = userUtil.userNormalizator(newUser.toObject());
 
