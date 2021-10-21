@@ -7,18 +7,17 @@ const actionTokenSchema = new Schema({
         required: true,
         trim: true
     },
-    token_type:{
+    token_type: {
         type: String,
         required: true,
-        enum:Object.values(ActionTokenTypeEnum),
+        enum: Object.values(ActionTokenTypeEnum),
         trim: true
     },
     user_id: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'user'
-    },
-
+    }
 }, {timestamps: true});
 
 actionTokenSchema.pre('findOne', function() {

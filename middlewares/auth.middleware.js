@@ -1,13 +1,29 @@
 const {userValidator} = require('../validators');
 const ErrorHandler = require('../errors/ErrorHandler');
-const {constants, tokenTypeEnum} = require('../configs');
+const {constants, tokenTypeEnum, actionTokenTypeEnum} = require('../configs');
 const {jwtService, passwordService} = require('../service');
-const {O_Auth} = require('../dataBase');
+const {O_Auth, ActionToken} = require('../dataBase');
 
 module.exports = {
     isUserAuthValid: (req, res, next) => {
         try {
             const {error, value} = userValidator.authUserValidator.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(error.details[0].message, constants.BAD_REQUEST);
+            }
+
+            req.body = value;
+
+            next();
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    isUserForgotPassValid: (req, res, next) => {
+        try {
+            const {error, value} = userValidator.passwordUserValidator.validate(req.body);
 
             if (error) {
                 throw new ErrorHandler(error.details[0].message, constants.BAD_REQUEST);
@@ -72,6 +88,32 @@ module.exports = {
 
             const tokenResponse = await O_Auth
                 .findOne({refresh_token: token});
+
+            if (!tokenResponse) {
+                throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
+            }
+
+            req.user = tokenResponse.user_id;
+            req.token = token;
+
+            next();
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    checkActionToken: async (req, res, next) => {
+        try {
+            const token = req.get(constants.AUTHORIZATION);
+
+            if (!token) {
+                throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
+            }
+
+            await jwtService.verifyToken(token, actionTokenTypeEnum.FORGOT_PASSWORD);
+
+            const tokenResponse = await ActionToken
+                .findOne({token});
 
             if (!tokenResponse) {
                 throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);

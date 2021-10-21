@@ -15,9 +15,21 @@ module.exports = {
 
     verifyToken: (token, tokenType = tokenTypeEnum.ACCESS) => {
         try {
-            const secret = tokenType === tokenTypeEnum.ACCESS ? config.JWT_ACCESS_SECRET : config.JWT_REFRESH_SECRET;
-
-            jwt.verify(token, secret);
+            let secretWord;
+            switch (tokenType) {
+                case actionTokenTypeEnum.FORGOT_PASSWORD:
+                    secretWord = config.JWT_ACTION_SECRET;
+                    break;
+                case tokenTypeEnum.ACCESS:
+                    secretWord = config.JWT_ACCESS_SECRET;
+                    break;
+                case tokenTypeEnum.REFRESH:
+                    secretWord = config.JWT_REFRESH_SECRET;
+                    break;
+                default:
+                    throw new ErrorHandler(constants.WRONG_TOKEN_TYPE, constants.INTERNAL_SERVER_ERROR);
+            }
+            jwt.verify(token, secretWord);
         } catch (e) {
             throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
         }
@@ -27,11 +39,13 @@ module.exports = {
         let secretWord;
         switch (actionTokenType) {
             case actionTokenTypeEnum.FORGOT_PASSWORD:
-                secretWord = 'hjfhfhfh';
+                secretWord = config.JWT_ACTION_SECRET;
                 break;
+            default:
+                throw new ErrorHandler(constants.WRONG_TOKEN_TYPE, constants.INTERNAL_SERVER_ERROR);
         }
 
-        return jwt.sign({}, config.JWT_ACCESS_SECRET, {expiresIn: '15m'});
+        return jwt.sign({}, secretWord, {expiresIn: '24h'});
 
     },
 };
