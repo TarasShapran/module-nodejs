@@ -134,8 +134,8 @@ module.exports = {
 
     activate: async (req, res, next) => {
         try {
-            const {user:{_id}} = req.user;
-            console.log(_id);
+            const {user: {_id}} = req;
+
             await User.updateOne({_id}, {is_active: true});
 
             res.json(constants.USER_IS_ACTIVE)

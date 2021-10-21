@@ -134,7 +134,7 @@ module.exports = {
 
             await jwtService.verifyToken(token, actionTokenTypeEnum.ACTIVATE);
 
-            const {user_id:user, _id} = await ActionToken.findOne({token, token_type: actionTokenTypeEnum.ACTIVATE});
+            const {user_id: user, _id} = await ActionToken.findOne({token, token_type: actionTokenTypeEnum.ACTIVATE});
 
             if (!user) {
                 throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
@@ -143,6 +143,8 @@ module.exports = {
             await ActionToken.deleteOne({_id});
 
             req.user = user;
+
+            next();
         } catch (e) {
             next(e);
         }
