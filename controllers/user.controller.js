@@ -1,8 +1,7 @@
 const {User, O_Auth, ActionToken} = require('../dataBase');
 const {emailService, jwtService} = require('../service');
 const userUtil = require('../util/user.util');
-const {emailActionsEnum, actionTokenTypeEnum, config} = require('../configs');
-const constants = require('constants');
+const {emailActionsEnum, actionTokenTypeEnum, config, constants} = require('../configs');
 
 module.exports = {
     getUsers: async (req, res, next) => {
