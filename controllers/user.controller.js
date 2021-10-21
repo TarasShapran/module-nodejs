@@ -1,7 +1,8 @@
-const {User, O_Auth} = require('../dataBase');
-const {passwordService,emailService} = require('../service');
+const {User, O_Auth, Action} = require('../dataBase');
+const {passwordService, emailService, jwtService} = require('../service');
 const userUtil = require('../util/user.util');
 const {emailActionsEnum} = require('../configs');
+const {ACTION} = require('../configs/token-type.enum');
 
 module.exports = {
     getUsers: async (req, res, next) => {
@@ -35,9 +36,17 @@ module.exports = {
 
             const hashedPassword = await passwordService.hash(password);
 
-            await emailService.sendMail(req.body.email, emailActionsEnum.WELCOME, {userName: name});
-
             const newUser = await User.create({...req.body, password: hashedPassword});
+
+            const token = jwtService.generateActionToken();
+
+            console.log(token);
+            console.log(ACTION);
+            const newAction = await Action.create({token, type: ACTION, user_id: newUser._id});
+
+            console.log(newAction);
+
+            await emailService.sendMail(req.body.email, emailActionsEnum.WELCOME, {userName: name,token});
 
             const normalizedUser = userUtil.userNormalizator(newUser.toObject());
 
@@ -70,7 +79,7 @@ module.exports = {
             const newUser = await User.findByIdAndUpdate(user_id, req.body, {new: true})
                 .lean();
 
-            await emailService.sendMail(newUser.email, emailActionsEnum.UPDATE,{userName:newUser.name});
+            await emailService.sendMail(newUser.email, emailActionsEnum.UPDATE, {userName: newUser.name});
 
             const normalizedUser = userUtil.userNormalizator(newUser);
 

@@ -30,4 +30,9 @@ router.post(
     authController.refresh
 );
 
+router.get(
+    '/activate/:token',
+    authMiddleware.checkActivateToken,
+    authController.activate);
+
 module.exports = router;

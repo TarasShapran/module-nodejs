@@ -2,7 +2,7 @@ const {userValidator} = require('../validators');
 const ErrorHandler = require('../errors/ErrorHandler');
 const {constants, tokenTypeEnum} = require('../configs');
 const {jwtService, passwordService} = require('../service');
-const {O_Auth} = require('../dataBase');
+const {O_Auth, Action} = require('../dataBase');
 
 module.exports = {
     isUserAuthValid: (req, res, next) => {
@@ -81,6 +81,29 @@ module.exports = {
 
             req.user = tokenResponse.user_id;
             req.token = token;
+
+            next();
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    checkActivateToken: async (req, res, next) => {
+        try {
+            const token = req.params;
+
+            await jwtService.verifyToken(token, tokenTypeEnum.ACTION);
+
+            const {user_id, _id} = await Action.findOne({token, type: tokenTypeEnum.ACTION})
+                .populate('user_id');
+
+            if (!user_id) {
+                throw new ErrorHandler(constants.INVALID_TOKEN, constants.UNAUTHORIZED);
+            }
+
+            await Action.deleteOne({_id});
+
+            req.user = user_id;
 
             next();
         } catch (err) {

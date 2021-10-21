@@ -1,6 +1,6 @@
 const {userNormalizator} = require('../util/user.util');
 const {jwtService} = require('../service');
-const {O_Auth} = require('../dataBase');
+const {O_Auth, User} = require('../dataBase');
 
 module.exports = {
     login: async (req, res, next) => {
@@ -77,6 +77,18 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    }
+    },
+
+    activate: async (req, res, next) => {
+        try {
+            const {_id} = req.user;
+
+            await User.updateOne({_id}, {is_active: true});
+
+            res.status(200).json('user is active');
+        } catch (e) {
+            next(e);
+        }
+    },
 
 };
