@@ -2,6 +2,7 @@ const {User, O_Auth, ActionToken} = require('../dataBase');
 const {emailService, jwtService} = require('../service');
 const userUtil = require('../util/user.util');
 const {emailActionsEnum, actionTokenTypeEnum, config} = require('../configs');
+const constants = require('constants');
 
 module.exports = {
     getUsers: async (req, res, next) => {
@@ -49,7 +50,8 @@ module.exports = {
 
             const normalizedUser = userUtil.userNormalizator(newUser.toObject());
 
-            res.json(normalizedUser);
+            res.json(normalizedUser)
+                .status(constants.CREATED);
         } catch (err) {
             next(err);
         }
@@ -65,7 +67,7 @@ module.exports = {
 
             await emailService.sendMail(req.body.email, emailActionsEnum.DELETE);
 
-            res.json(`User with id: ${user_id} deleted`);
+            res.sendStatus(constants.NO_CONTENT);
         } catch (err) {
             next(err);
         }
@@ -82,7 +84,8 @@ module.exports = {
 
             const normalizedUser = userUtil.userNormalizator(newUser);
 
-            res.json(normalizedUser);
+            res.json(normalizedUser)
+                .status(constants.CREATED);
         } catch (err) {
             next(err);
         }
