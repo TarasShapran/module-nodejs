@@ -3,6 +3,8 @@ module.exports = {
     EMAIL_REGEXP: new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$'),
     MAX_YEAR: (new Date().getFullYear() - 2),
     MIN_YEAR: (new Date().getFullYear() - 40),
+    CREATED:201,
+    NO_CONTENT:204,
     BAD_REQUEST: 400,
     UNAUTHORIZED: 401,
     FORBIDDEN: 403,
