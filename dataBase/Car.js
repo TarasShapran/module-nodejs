@@ -1,5 +1,7 @@
 const {Schema, model} = require('mongoose');
 
+const {modelNamesEnum} = require('../configs');
+
 const carSchema = new Schema({
     brand: {
         type: String,
@@ -21,4 +23,4 @@ const carSchema = new Schema({
     }
 }, {timestamps: true});
 
-module.exports = model('car', carSchema);
+module.exports = model(modelNamesEnum.CARS, carSchema);

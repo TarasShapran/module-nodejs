@@ -32,6 +32,7 @@ router.post(
 
 router.post(
     '/password/forgot',
+    authMiddleware.isEmailValid,
     authController.sendMailForgotPassword);
 
 router.put(
@@ -42,6 +43,7 @@ router.put(
 
 router.get(
     '/activate/:token',
+    authMiddleware.isEmailValid,
     authMiddleware.checkActivateToken,
     authController.activate);
 
