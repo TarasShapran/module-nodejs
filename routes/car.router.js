@@ -2,15 +2,17 @@ const router = require('express')
     .Router();
 
 const {carController} = require('../controllers');
-const {carMiddleware} = require('../middlewares');
+const {carMiddleware, userMiddleware} = require('../middlewares');
 
 router.get(
-    '/',
+    '/:user_id',
+    userMiddleware.checkUserIdMiddleware,
     carController.getCars);
 
 router.post(
-    '/',
+    '/:user_id',
     carMiddleware.isCarBodyValid,
+    userMiddleware.checkUserIdMiddleware,
     carController.createCar);
 
 router.delete(

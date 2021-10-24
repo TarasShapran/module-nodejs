@@ -20,6 +20,11 @@ const carSchema = new Schema({
     price: {
         type: Number,
         required: true
+    },
+    user_id: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'user'
     }
 }, {timestamps: true});
 
