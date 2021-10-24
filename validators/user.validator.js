@@ -46,7 +46,7 @@ const authUserValidator = Joi.object({
 });
 
 const passwordUserValidator = Joi.object({
-    password: Joi
+    newPassword: Joi
         .string()
         .regex(constants.PASSWORD_REGEXP)
         .required()

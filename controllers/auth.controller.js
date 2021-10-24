@@ -81,7 +81,7 @@ module.exports = {
         }
     },
 
-    sendMailForgotPassword: async (req, res, next) => {
+    sendMailForgotPassword: (actionTokenTypeEnum, emailActionsEnum) => async (req, res, next) => {
         try {
             const {email} = req.body;
 
@@ -91,18 +91,18 @@ module.exports = {
                 throw new ErrorHandler('User not found', constants.NOT_FOUND);
             }
 
-            const token = jwtService.generateActionToken(actionTokenTypeEnum.FORGOT_PASSWORD);
+            const token = jwtService.generateActionToken(actionTokenTypeEnum);
 
             await ActionToken.create({
                 token,
-                token_type: actionTokenTypeEnum.FORGOT_PASSWORD,
+                token_type: actionTokenTypeEnum,
                 user_id: user._id
             });
 
             await emailService.sendMail(
                 email,
-                emailActionsEnum.FORGOT_PASSWORD,
-                {forgotPasswordUrl: `${config.LOCALHOST_3000}passwordForgot?token=${token}`});
+                emailActionsEnum,
+                {passwordUrl: `${config.LOCALHOST_3000}${emailActionsEnum}?token=${token}`});
 
             res.json('Ok');
         } catch (e) {
@@ -110,7 +110,7 @@ module.exports = {
         }
     },
 
-    setNewPasswordAfterForgot: async (req, res, next) => {
+    setNewPasswordForgot: async (req, res, next) => {
         try {
             const {user, body: {newPassword}} = req;
 
