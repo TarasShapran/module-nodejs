@@ -10,6 +10,7 @@ module.exports = {
             const {error, value} = userValidator.authUserValidator.validate(req.body);
 
             if (error) {
+
                 throw new ErrorHandler(error.details[0].message, constants.BAD_REQUEST);
             }
 
@@ -43,6 +44,9 @@ module.exports = {
 
             if (error) {
                 throw new ErrorHandler(error.details[0].message, constants.BAD_REQUEST);
+
+
+                throw new ErrorHandler(error.details[0].message,constants.BAD_REQUEST);
 
             }
 
