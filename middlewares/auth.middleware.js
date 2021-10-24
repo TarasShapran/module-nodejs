@@ -44,10 +44,6 @@ module.exports = {
 
             if (error) {
                 throw new ErrorHandler(error.details[0].message, constants.BAD_REQUEST);
-
-
-                throw new ErrorHandler(error.details[0].message,constants.BAD_REQUEST);
-
             }
 
             req.body = value;
