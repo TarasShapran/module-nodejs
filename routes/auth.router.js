@@ -32,6 +32,7 @@ router.post(
 
 router.post(
     '/password/forgot',
+    authMiddleware.isEmailValid,
     authController.sendMailForgotPassword);
 
 router.put(

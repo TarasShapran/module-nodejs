@@ -50,6 +50,22 @@ module.exports = {
         }
     },
 
+    isEmailValid: (req, res, next) => {
+        try {
+            const {error, value} = userValidator.emailUserValidator.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(error.details[0].message, constants.BAD_REQUEST);
+            }
+
+            req.body = value;
+
+            next();
+        } catch (err) {
+            next(err);
+        }
+    },
+
     checkAccessToken: async (req, res, next) => {
         try {
             const token = req.get(constants.AUTHORIZATION);

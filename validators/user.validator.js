@@ -45,6 +45,13 @@ const authUserValidator = Joi.object({
         .required()
 });
 
+const emailUserValidator = Joi.object({
+    email: Joi
+        .string()
+        .regex(constants.EMAIL_REGEXP)
+        .required()
+});
+
 const passwordUserValidator = Joi.object({
     password: Joi
         .string()
@@ -56,5 +63,6 @@ module.exports = {
     createUserValidator,
     authUserValidator,
     updateUserValidator,
-    passwordUserValidator
+    passwordUserValidator,
+    emailUserValidator
 };
