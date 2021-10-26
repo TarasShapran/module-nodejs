@@ -1,13 +1,13 @@
 const {User, O_Auth, ActionToken} = require('../dataBase');
-const {emailService, jwtService} = require('../service');
+const {emailService, jwtService, userService} = require('../service');
 const userUtil = require('../util/user.util');
 const {emailActionsEnum, actionTokenTypeEnum, config, constants} = require('../configs');
 
 module.exports = {
     getUsers: async (req, res, next) => {
         try {
-            const users = await User.find()
-                .lean();
+            //const users = await User.find().lean();
+            const users = await userService.getAllUsers(req.query).lean();
 
             const normalizedUser = users.map(value => userUtil.userNormalizator(value));
 

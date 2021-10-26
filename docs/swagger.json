@@ -1,0 +1,78 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "June-2021",
+    "contact": {
+      "email": "shaprantaras2000@gmail.com",
+      "name": "Taras"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "postUser",
+        "description": "This is how to create new user",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "default": "Taras",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "default": "example@mail.com",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "default": "P@$$word1",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User was created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "P@ss1234"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Taras"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "code": {
+                  "type": "number",
+                  "example": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
