@@ -2,5 +2,5 @@ module.exports = {
     USER: 'user',
     CARS: 'cars',
     O_AUTH: 'o_auth',
-    ACTION_TOKENS : 'actionTokens'
+    ACTION_TOKENS : 'action_tokens'
 };
