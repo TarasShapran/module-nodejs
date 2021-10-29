@@ -53,7 +53,9 @@ app.use('*', (err, req, res, next) => {
 
 app.listen(config.PORT, () => {
     console.log(`App listen ${config.PORT}`);
+
     checkDefaultDate();
+
     startCron();
 });
 
@@ -61,6 +63,7 @@ function _configureCors(origin, callback) {
     if (config.NODE_ENV === 'dev') {
         return callback(null, true);
     }
+    
     const whiteList = config.ALLOWED_ORIGIN.split(';');
 
     if (!whiteList.includes(origin)) {
