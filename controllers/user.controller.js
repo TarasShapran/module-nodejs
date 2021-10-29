@@ -1,5 +1,5 @@
 const {User, O_Auth, ActionToken} = require('../dataBase');
-const {emailService, jwtService, userService} = require('../service');
+const {emailService, jwtService, userService, s3Service} = require('../service');
 const userUtil = require('../util/user.util');
 const {emailActionsEnum, actionTokenTypeEnum, config, constants} = require('../configs');
 
@@ -7,7 +7,8 @@ module.exports = {
     getUsers: async (req, res, next) => {
         try {
             //const users = await User.find().lean();
-            const users = await userService.getAllUsers(req.query).lean();
+            const users = await userService.getAllUsers(req.query)
+                .lean();
 
             const normalizedUser = users.map(value => userUtil.userNormalizator(value));
 
@@ -33,7 +34,15 @@ module.exports = {
         try {
             const {name} = req.body;
 
-            const newUser = await User.createUserWithHashPassword(req.body);
+            let newUser = await User.createUserWithHashPassword(req.body);
+
+            const {avatar} = req.files;
+
+            if (avatar && req.files) {
+                const uploadInfo = await s3Service.uploadImage(avatar, 'user', newUser._id.toString());
+
+                newUser = await User.findByIdAndUpdate(newUser._id, {avatar: uploadInfo.Location}, {new: true});
+            }
 
             const token = jwtService.generateActionToken(actionTokenTypeEnum.ACTIVATE);
 
