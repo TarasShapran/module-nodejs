@@ -17,6 +17,4 @@ module.exports = async () => {
     users.map(async ({user_id: {email}}) => {
         await emailService.sendMail(email, emailActionsEnum.COME_BACK);
     });
-
-    return console.log('email sent');
 };
