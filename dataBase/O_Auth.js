@@ -25,4 +25,8 @@ oAuthSchema.pre('findOne', function() {
     this.populate('user_id');
 });
 
+oAuthSchema.pre('find', function() {
+    this.populate('user_id');
+});
+
 module.exports = model(modelNamesEnum.O_AUTH, oAuthSchema);

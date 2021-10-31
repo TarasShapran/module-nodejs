@@ -23,5 +23,30 @@ module.exports = {
     USER_ID_DOES_NOT_EXIST: 'User_id does not exist',
     WRONG_EMAIL_OR_PASSWORD: 'Wrong email or password',
     WRONG_TOKEN_TYPE: 'Wrong token type',
-    USER_IS_ACTIVE: 'User is Active'
+    USER_IS_ACTIVE: 'User is Active',
+
+    PHOTO_MAX_SIZE: 5 * 1024 * 1024, // 5MB
+    FILE_MAX_SIZE: 5 * 1024 * 1024, // 5MB
+    VIDEO_MAX_SIZE: 15 * 1024 * 1024, // 15MB
+    PHOTOS_MIMETYPES: [
+        'image/gif',
+        'image/jpeg',
+        'image/pjpeg',
+        'image/png',
+        'image/tiff',
+        'image/webp'
+    ],
+
+    DOCS_MIMETYPES: [
+        'application/msword', // DOC
+        'application/pdf', // PDF
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // XLS
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // DOC 2007
+    ],
+
+    VIDEOS_MIMETYPES: [
+        'video/mpeg',
+        'video/mp4',
+    ]
+
 };
