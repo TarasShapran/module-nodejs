@@ -8,13 +8,18 @@ const {emailActionsEnum} = require('../configs');
 dayJs.extend(utc);
 
 module.exports = async () => {
-    const previousMonth = dayJs.utc()
+    const loginTenDaysAgo = dayJs.utc()
         .subtract(10, 'day');
 
-    const users = await O_Auth.find({updatedAt: {$lt: previousMonth}});
+    const users = await O_Auth.find({updatedAt: {$lt: loginTenDaysAgo}});
+
+    if (users.length) {
+        const usersToRemind = [];
+
+        users.forEach(user => usersToRemind.push(user.user_id));
+
+        await Promise.allSettled(usersToRemind.map(user => emailService.sendMail(user.email, emailActionsEnum.COME_BACK)));
+    }
 
 
-    users.map(async ({user_id: {email}}) => {
-        await emailService.sendMail(email, emailActionsEnum.COME_BACK);
-    });
 };
