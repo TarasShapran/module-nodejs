@@ -7,7 +7,7 @@ module.exports = () => {
     cron.schedule('0 0 * */1 *', async () => {
         await removeOldTokens();
     });
-    cron.schedule('*/10 * * * * *', async () => {
+    cron.schedule('0 0 */10 * * *', async () => {
         await sendMailtoUsers();
     });
 };
